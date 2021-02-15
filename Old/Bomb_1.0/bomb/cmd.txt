@@ -1,0 +1,1 @@
+avrdude -v -p m328p -cusbtiny -PCOM6 -b115200 -D -Uflash:w:E:\Electronics\Bomb\Bomb_1.0\bomb/bomb.ino.standard.hex:i

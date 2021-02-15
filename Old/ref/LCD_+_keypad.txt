@@ -1,0 +1,63 @@
+/*The circuit:
+ * LCD RS pin to digital pin 11
+ * LCD Enable pin to digital pin 10
+ * LCD D4 pin to digital pin 17
+ * LCD D5 pin to digital pin 16
+ * LCD D6 pin to digital pin 15
+ * LCD D7 pin to digital pin 14
+ * LCD R/W pin to ground
+ * LCD VSS pin to ground
+ * LCD VCC pin to 5V
+ * 10K resistor:
+ * ends to +5V and ground
+ * wiper to LCD VO pin (pin 3)
+*/
+
+#include <Keypad.h>
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(11, 10, 17, 16, 15, 14);
+// initialize the library with the numbers of the interface pins
+
+
+const byte numRows= 4; //number of rows on the keypad
+const byte numCols= 4; //number of columns on the keypad
+
+//keymap defines the key pressed according to the row and columns just as appears on the keypad
+char keymap[numRows][numCols]= 
+{
+{'1', '2', '3', 'A'}, 
+{'4', '5', '6', 'B'}, 
+{'7', '8', '9', 'C'},
+{'*', '0', '#', 'D'}
+};
+
+//Code that shows the the keypad connections to the arduino terminals
+byte rowPins[numRows] = {9,8,7,6}; //Rows 0 to 3
+byte colPins[numCols]= {5,4,3,2}; //Columns 0 to 3
+
+//initializes an instance of the Keypad class
+Keypad myKeypad= Keypad(makeKeymap(keymap), rowPins, colPins, numRows, numCols);
+
+void setup()
+{
+Serial.begin(9600);
+
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+}
+
+//If key is pressed, this key is stored in 'keypressed' variable
+//If key is not equal to 'NO_KEY', then this key is printed out
+//if count=17, then count is reset back to 0 (this means no key is pressed during the whole keypad scan process
+void loop()
+{
+	
+char keypressed = myKeypad.getKey();
+if (keypressed != NO_KEY)
+{
+lcd.print(keypressed);
+   lcd.setCursor(0, 1);
+}
+}
+
